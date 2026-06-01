@@ -1,0 +1,17 @@
+id: TC-L2-003
+layer: L2
+description: 发票 FAQ
+input:
+  message: "如何开具发票"
+  session_id: "l2-TC-L2-003"
+assertions:
+  skill:
+    must_invoke:
+      - knowledge-retrieve
+      - answer-compose
+    must_not_invoke: []
+  response:
+    must_contain:
+    - 发票
+  source:
+    min_count: 1

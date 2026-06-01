@@ -1,0 +1,12 @@
+id: TC-L5-007
+layer: L5
+description: E2E 退款
+input:
+  message: "我要退款"
+assertions:
+  skill:
+    must_invoke:
+    - ticket-create
+  response:
+    must_contain:
+    - T-

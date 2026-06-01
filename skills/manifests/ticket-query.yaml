@@ -1,0 +1,23 @@
+id: ticket-query
+version: 1.0.0
+name: 工单查询
+description: 查询工单进度
+agent: ticket-agent
+boundary:
+  does:
+  - 查询工单状态
+  does_not:
+  - 创建工单
+  - 修改工单
+inputs:
+- conversation_context
+outputs:
+- ticket_status
+tools:
+- ticket_api.get
+memory_deps:
+- working
+- episodic
+prompt_template: skills/prompts/ticket-query.md
+eval_suite: evaluation/skills/ticket-query/
+fallback: rule-engine.ask-ticket-id

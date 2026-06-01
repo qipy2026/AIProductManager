@@ -1,0 +1,20 @@
+id: TC-L1-002
+layer: L1
+description: 报修建单
+input:
+  message: "我要报修，设备无法启动"
+  memory_fixture: null
+assertions:
+  skill:
+    must_invoke:
+    - intent-classify
+    - ticket-create
+    must_not_invoke:
+    - ticket-query
+  response:
+    must_contain:
+    - T-
+  memory:
+    must_inject:
+    - working
+    must_not_inject: []

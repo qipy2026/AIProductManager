@@ -1,0 +1,14 @@
+id: TC-L3-009
+layer: L3
+description: CRM
+input:
+  message: "查客户 C-1001 信息"
+assertions:
+  skill:
+    must_invoke:
+    - crm-lookup
+    must_not_invoke:
+    - ticket-create
+  response:
+    must_contain:
+    - C-1001

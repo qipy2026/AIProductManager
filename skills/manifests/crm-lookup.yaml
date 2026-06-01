@@ -1,0 +1,21 @@
+id: crm-lookup
+version: 1.0.0
+name: CRM 查询
+description: 只读查询客户信息
+agent: shared
+boundary:
+  does:
+  - 查询 CRM
+  does_not:
+  - 修改 CRM 数据
+inputs:
+- customer_id
+outputs:
+- customer_profile
+tools:
+- crm_api.get_customer
+memory_deps:
+- profile
+prompt_template: skills/prompts/crm-lookup.md
+eval_suite: evaluation/skills/crm-lookup/
+fallback: rule-engine.customer-not-found

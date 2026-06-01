@@ -1,0 +1,12 @@
+id: ST-IC-005
+skill: intent-classify
+description: VIP SLA
+input:
+  message: "我是 VIP，SLA 是多少"
+assertions:
+  intent: consult
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

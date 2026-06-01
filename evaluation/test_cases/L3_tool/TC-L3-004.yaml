@@ -1,0 +1,14 @@
+id: TC-L3-004
+layer: L3
+description: 退款建单
+input:
+  message: "我要退款"
+assertions:
+  skill:
+    must_invoke:
+    - ticket-create
+    must_not_invoke:
+    - ticket-query
+  response:
+    must_contain:
+    - T-

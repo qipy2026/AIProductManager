@@ -1,0 +1,19 @@
+id: TC-L1-012
+layer: L1
+description: 升级判断
+input:
+  message: "三次没解决，找经理"
+  memory_fixture: null
+assertions:
+  skill:
+    must_invoke:
+    - escalation-judge
+    must_not_invoke:
+    - human-handoff
+  response:
+    must_contain:
+    - 反馈
+  memory:
+    must_inject:
+    - working
+    must_not_inject: []

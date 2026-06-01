@@ -1,0 +1,13 @@
+id: TC-L4-004
+layer: L4
+description: VIP profile
+input:
+  message: "VIP SLA 多少"
+  user_id: "user_vip"
+  memory_fixture: null
+assertions:
+  memory:
+    must_inject:
+    - profile
+    - semantic
+    must_not_inject: []

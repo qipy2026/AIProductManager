@@ -1,0 +1,19 @@
+id: TC-L1-009
+layer: L1
+description: 宕机报修
+input:
+  message: "服务器宕机了"
+  memory_fixture: null
+assertions:
+  skill:
+    must_invoke:
+    - ticket-create
+    must_not_invoke:
+    - answer-compose
+  response:
+    must_contain:
+    - T-
+  memory:
+    must_inject:
+    - working
+    must_not_inject: []

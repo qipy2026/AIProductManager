@@ -1,0 +1,12 @@
+id: ST-IC-012
+skill: intent-classify
+description: 退款
+input:
+  message: "我要退款"
+assertions:
+  intent: refund
+  min_confidence: 0.9
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

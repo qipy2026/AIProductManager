@@ -1,0 +1,12 @@
+id: ST-IC-006
+skill: intent-classify
+description: 报修建单
+input:
+  message: "我要报修，设备无法启动"
+assertions:
+  intent: ticket
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

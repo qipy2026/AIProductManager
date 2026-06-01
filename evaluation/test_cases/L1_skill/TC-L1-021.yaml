@@ -1,0 +1,21 @@
+id: TC-L1-021
+layer: L1
+description: 版本对比
+input:
+  message: "企业版和专业版区别"
+  memory_fixture: null
+assertions:
+  skill:
+    must_invoke:
+    - knowledge-retrieve
+    - answer-compose
+    must_not_invoke:
+    - ticket-create
+  response:
+    must_contain:
+    - 企业版
+  memory:
+    must_inject:
+    - working
+    - semantic
+    must_not_inject: []

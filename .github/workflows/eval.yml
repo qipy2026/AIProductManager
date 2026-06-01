@@ -1,0 +1,36 @@
+name: Eval Harness
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Generate eval cases
+        run: |
+          python scripts/generate_l1_cases.py
+          python scripts/generate_all_eval_cases.py
+
+      - name: Run Eval Harness (gate ≥85%)
+        env:
+          AGENTOPS_STORAGE: memory
+          SEMANTIC_BACKEND: keyword
+          USE_LANGGRAPH: "0"
+        run: python scripts/run_eval.py --gate 0.85
+
+      - name: Run unit tests
+        run: pytest tests/ -q --tb=short

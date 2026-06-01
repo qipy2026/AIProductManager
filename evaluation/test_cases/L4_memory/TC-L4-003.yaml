@@ -1,0 +1,13 @@
+id: TC-L4-003
+layer: L4
+description: query 含 episodic
+input:
+  message: "查 T-001"
+  user_id: "u1"
+  memory_fixture: {"user_id": "u1", "episodic": [{"summary": "历史工单 T-099", "ticket_ids": ["T-099"]}]}
+assertions:
+  memory:
+    must_inject:
+    - working
+    - episodic
+    must_not_inject: []

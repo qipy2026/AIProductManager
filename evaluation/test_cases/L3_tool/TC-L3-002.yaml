@@ -1,0 +1,14 @@
+id: TC-L3-002
+layer: L3
+description: 缺字段 Fallback
+input:
+  message: "我要报修"
+assertions:
+  skill:
+    must_invoke:
+    - ticket-create
+    must_not_invoke: []
+  response:
+    must_contain:
+    - 补充
+    - 标题

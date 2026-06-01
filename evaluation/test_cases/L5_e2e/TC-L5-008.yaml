@@ -1,0 +1,12 @@
+id: TC-L5-008
+layer: L5
+description: E2E 发票
+input:
+  message: "如何开发票"
+assertions:
+  skill:
+    must_invoke:
+    - answer-compose
+  response:
+    must_contain:
+    - 发票

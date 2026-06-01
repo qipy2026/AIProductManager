@@ -1,0 +1,12 @@
+id: ST-IC-013
+skill: intent-classify
+description: 退钱
+input:
+  message: "请帮我退钱"
+assertions:
+  intent: refund
+  min_confidence: 0.9
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

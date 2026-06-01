@@ -1,0 +1,12 @@
+id: ST-IC-007
+skill: intent-classify
+description: 宕机
+input:
+  message: "服务器宕机了请尽快处理"
+assertions:
+  intent: ticket
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

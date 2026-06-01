@@ -1,0 +1,12 @@
+id: ST-IC-011
+skill: intent-classify
+description: 激烈投诉
+input:
+  message: "三次没解决，找经理"
+assertions:
+  intent: complaint
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

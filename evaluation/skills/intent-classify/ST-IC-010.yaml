@@ -1,0 +1,12 @@
+id: ST-IC-010
+skill: intent-classify
+description: 投诉
+input:
+  message: "太差了，要投诉"
+assertions:
+  intent: complaint
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

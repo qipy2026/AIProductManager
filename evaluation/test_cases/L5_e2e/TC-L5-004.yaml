@@ -1,0 +1,12 @@
+id: TC-L5-004
+layer: L5
+description: E2E 升级
+input:
+  message: "三次没解决要投诉"
+assertions:
+  skill:
+    must_invoke:
+    - human-handoff
+  response:
+    must_contain:
+    - 转接

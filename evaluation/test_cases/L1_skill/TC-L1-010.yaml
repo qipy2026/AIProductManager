@@ -1,0 +1,18 @@
+id: TC-L1-010
+layer: L1
+description: 查单
+input:
+  message: "查一下 T-005 进度"
+  memory_fixture: null
+assertions:
+  skill:
+    must_invoke:
+    - ticket-query
+    must_not_invoke: []
+  response:
+    must_contain:
+    - T-005
+  memory:
+    must_inject:
+    - working
+    must_not_inject: []

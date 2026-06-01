@@ -1,0 +1,12 @@
+id: ST-IC-022
+skill: intent-classify
+description: CRM 查询
+input:
+  message: "客户 C-1001 的资料"
+assertions:
+  intent: crm
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

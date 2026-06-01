@@ -1,0 +1,12 @@
+id: ST-IC-014
+skill: intent-classify
+description: 闲聊天气
+input:
+  message: "今天天气怎么样"
+assertions:
+  intent: chitchat
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

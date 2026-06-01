@@ -1,0 +1,13 @@
+id: TC-L4-005
+layer: L4
+description: 跨会话续接
+input:
+  message: "上次工单进度呢"
+  user_id: "u2"
+  memory_fixture: {"user_id": "u2", "episodic": [{"summary": "曾咨询 T-001", "ticket_ids": ["T-001"]}]}
+assertions:
+  memory:
+    must_inject:
+    - working
+    - episodic
+    must_not_inject: []

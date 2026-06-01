@@ -1,0 +1,18 @@
+id: TC-L2-002
+layer: L2
+description: 版本对比
+input:
+  message: "企业版和专业版区别"
+  session_id: "l2-TC-L2-002"
+assertions:
+  skill:
+    must_invoke:
+      - knowledge-retrieve
+      - answer-compose
+    must_not_invoke: []
+  response:
+    must_contain:
+    - 专业版
+    - 企业版
+  source:
+    min_count: 1

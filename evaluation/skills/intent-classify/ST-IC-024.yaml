@@ -1,0 +1,12 @@
+id: ST-IC-024
+skill: intent-classify
+description: 混合退款查单 — 含工单号优先查单
+input:
+  message: "我要退款，顺便查 T-010"
+assertions:
+  intent: ticket
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

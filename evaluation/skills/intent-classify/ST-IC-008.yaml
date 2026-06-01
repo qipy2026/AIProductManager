@@ -1,0 +1,12 @@
+id: ST-IC-008
+skill: intent-classify
+description: 查进度 T号
+input:
+  message: "帮我查一下工单 T-001 的处理进度"
+assertions:
+  intent: ticket
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

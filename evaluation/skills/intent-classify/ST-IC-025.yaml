@@ -1,0 +1,12 @@
+id: ST-IC-025
+skill: intent-classify
+description: 路由问候
+input:
+  message: "您好，在吗"
+assertions:
+  intent: chitchat
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

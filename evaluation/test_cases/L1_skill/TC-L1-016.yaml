@@ -1,0 +1,21 @@
+id: TC-L1-016
+layer: L1
+description: 发票
+input:
+  message: "如何开具发票"
+  memory_fixture: null
+assertions:
+  skill:
+    must_invoke:
+    - knowledge-retrieve
+    - answer-compose
+    must_not_invoke:
+    - ticket-create
+  response:
+    must_contain:
+    - 发票
+  memory:
+    must_inject:
+    - working
+    - semantic
+    must_not_inject: []

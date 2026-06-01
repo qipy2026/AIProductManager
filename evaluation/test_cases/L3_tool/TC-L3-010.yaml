@@ -1,0 +1,14 @@
+id: TC-L3-010
+layer: L3
+description: 升级转人工
+input:
+  message: "太差了要投诉"
+assertions:
+  skill:
+    must_invoke:
+    - human-handoff
+    must_not_invoke: []
+  response:
+    must_contain:
+    - 人工
+    - 转接

@@ -1,0 +1,17 @@
+id: TC-L2-006
+layer: L2
+description: 同义词
+input:
+  message: "专业版有什么功能"
+  session_id: "l2-TC-L2-006"
+assertions:
+  skill:
+    must_invoke:
+      - knowledge-retrieve
+      - answer-compose
+    must_not_invoke: []
+  response:
+    must_contain:
+    - 专业版
+  source:
+    min_count: 1

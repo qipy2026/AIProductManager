@@ -1,0 +1,18 @@
+id: TC-L1-023
+layer: L1
+description: 升级转人工
+input:
+  message: "三次没解决要投诉"
+  memory_fixture: null
+assertions:
+  skill:
+    must_invoke:
+    - human-handoff
+    must_not_invoke: []
+  response:
+    must_contain:
+    - 转接
+  memory:
+    must_inject:
+    - working
+    must_not_inject: []

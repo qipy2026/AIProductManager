@@ -1,0 +1,13 @@
+id: TC-L3-006
+layer: L3
+description: 关闭工单
+input:
+  message: "关闭 T-003 工单"
+assertions:
+  skill:
+    must_invoke:
+    - ticket-update
+    must_not_invoke: []
+  response:
+    must_contain:
+    - T-003

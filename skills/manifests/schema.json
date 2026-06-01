@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SkillManifest",
+  "type": "object",
+  "required": ["id", "version", "name", "agent", "boundary", "tools", "memory_deps"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "agent": { "type": "string" },
+    "boundary": {
+      "type": "object",
+      "required": ["does", "does_not"],
+      "properties": {
+        "does": { "type": "array", "items": { "type": "string" } },
+        "does_not": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "inputs": { "type": "array", "items": { "type": "string" } },
+    "outputs": { "type": "array", "items": { "type": "string" } },
+    "tools": { "type": "array", "items": { "type": "string" } },
+    "memory_deps": {
+      "type": "array",
+      "items": { "enum": ["working", "episodic", "semantic", "profile"] }
+    },
+    "prompt_template": { "type": "string" },
+    "eval_suite": { "type": "string" },
+    "fallback": { "type": "string" }
+  }
+}

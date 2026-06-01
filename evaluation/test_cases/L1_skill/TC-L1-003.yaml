@@ -1,0 +1,21 @@
+id: TC-L1-003
+layer: L1
+description: 知识咨询
+input:
+  message: "企业版套餐包含哪些功能"
+  memory_fixture: null
+assertions:
+  skill:
+    must_invoke:
+    - knowledge-retrieve
+    - answer-compose
+    must_not_invoke:
+    - ticket-create
+  response:
+    must_contain:
+    - 企业版
+  memory:
+    must_inject:
+    - working
+    - semantic
+    must_not_inject: []

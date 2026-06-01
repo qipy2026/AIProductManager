@@ -1,0 +1,17 @@
+id: TC-L2-010
+layer: L2
+description: 多关键词
+input:
+  message: "企业版 技术支持"
+  session_id: "l2-TC-L2-010"
+assertions:
+  skill:
+    must_invoke:
+      - knowledge-retrieve
+      - answer-compose
+    must_not_invoke: []
+  response:
+    must_contain:
+    - 企业版
+  source:
+    min_count: 1

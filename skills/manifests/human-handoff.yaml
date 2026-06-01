@@ -1,0 +1,24 @@
+id: human-handoff
+version: 1.0.0
+name: 转人工
+description: 执行转人工（规则引擎）
+agent: escalation-agent
+boundary:
+  does:
+  - 写入升级队列
+  does_not:
+  - 业务处理
+  - LLM 回复
+inputs:
+- ticket_id
+- reason
+outputs:
+- queue_id
+tools:
+- human_handoff.execute
+memory_deps:
+- working
+- profile
+prompt_template: skills/prompts/human-handoff.md
+eval_suite: evaluation/skills/human-handoff/
+fallback: rule-engine.handoff-fallback

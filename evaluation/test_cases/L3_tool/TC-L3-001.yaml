@@ -1,0 +1,13 @@
+id: TC-L3-001
+layer: L3
+description: 创建工单
+input:
+  message: "服务器宕机请处理"
+assertions:
+  skill:
+    must_invoke:
+    - ticket-create
+    must_not_invoke: []
+  response:
+    must_contain:
+    - T-

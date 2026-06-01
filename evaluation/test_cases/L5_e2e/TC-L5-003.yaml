@@ -1,0 +1,12 @@
+id: TC-L5-003
+layer: L5
+description: E2E 查单
+input:
+  message: "查 T-001 进度"
+assertions:
+  skill:
+    must_invoke:
+    - ticket-query
+  response:
+    must_contain:
+    - in_progress

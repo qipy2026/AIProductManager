@@ -1,0 +1,12 @@
+id: ST-IC-002
+skill: intent-classify
+description: 版本对比
+input:
+  message: "企业版和专业版有什么区别"
+assertions:
+  intent: consult
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

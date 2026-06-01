@@ -1,0 +1,22 @@
+id: ticket-update
+version: 1.0.0
+name: 工单更新
+description: 更新工单字段或状态（经规则引擎）
+agent: ticket-agent
+boundary:
+  does:
+  - 提取更新意图
+  does_not:
+  - 创建工单
+inputs:
+- conversation_context
+- ticket_id
+outputs:
+- update_result
+tools:
+- ticket_api.update
+memory_deps:
+- working
+prompt_template: skills/prompts/ticket-update.md
+eval_suite: evaluation/skills/ticket-update/
+fallback: rule-engine.update-denied

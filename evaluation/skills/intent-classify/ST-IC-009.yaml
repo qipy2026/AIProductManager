@@ -1,0 +1,12 @@
+id: ST-IC-009
+skill: intent-classify
+description: 查进度语义
+input:
+  message: "工单处理到哪了"
+assertions:
+  intent: ticket
+  min_confidence: 0.7
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

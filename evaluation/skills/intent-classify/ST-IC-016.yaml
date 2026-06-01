@@ -1,0 +1,12 @@
+id: ST-IC-016
+skill: intent-classify
+description: 模糊澄清
+input:
+  message: "帮我看看"
+assertions:
+  intent: unknown
+  min_confidence: 0.35
+  needs_clarify: true
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

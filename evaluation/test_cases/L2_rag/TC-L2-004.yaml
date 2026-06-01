@@ -1,0 +1,17 @@
+id: TC-L2-004
+layer: L2
+description: 密码重置
+input:
+  message: "忘记密码怎么办"
+  session_id: "l2-TC-L2-004"
+assertions:
+  skill:
+    must_invoke:
+      - knowledge-retrieve
+      - answer-compose
+    must_not_invoke: []
+  response:
+    must_contain:
+    - 密码
+  source:
+    min_count: 1

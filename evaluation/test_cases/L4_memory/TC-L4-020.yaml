@@ -1,0 +1,14 @@
+id: TC-L4-020
+layer: L4
+description: memory-20
+input:
+  message: "企业版功能"
+  user_id: "u4"
+  memory_fixture: null
+assertions:
+  memory:
+    must_inject:
+    - working
+    - semantic
+    must_not_inject:
+    - episodic

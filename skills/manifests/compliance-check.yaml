@@ -1,0 +1,20 @@
+id: compliance-check
+version: 1.0.0
+name: 合规检查
+description: 合规前置拦截
+agent: harness
+boundary:
+  does:
+  - 合规规则匹配
+  does_not:
+  - 业务回复
+inputs:
+- message
+outputs:
+- allowed
+- reason
+tools: []
+memory_deps: []
+prompt_template: skills/prompts/compliance-check.md
+eval_suite: evaluation/skills/compliance-check/
+fallback: rule-engine.compliance-block

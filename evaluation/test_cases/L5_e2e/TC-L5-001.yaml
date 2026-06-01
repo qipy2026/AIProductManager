@@ -1,0 +1,12 @@
+id: TC-L5-001
+layer: L5
+description: E2E 咨询
+input:
+  message: "企业版和专业版区别"
+assertions:
+  skill:
+    must_invoke:
+    - knowledge-retrieve
+  response:
+    must_contain:
+    - 企业版

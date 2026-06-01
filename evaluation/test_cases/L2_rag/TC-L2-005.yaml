@@ -1,0 +1,17 @@
+id: TC-L2-005
+layer: L2
+description: VIP SLA
+input:
+  message: "VIP 客户 SLA 是多少"
+  session_id: "l2-TC-L2-005"
+assertions:
+  skill:
+    must_invoke:
+      - knowledge-retrieve
+      - answer-compose
+    must_not_invoke: []
+  response:
+    must_contain:
+    - SLA
+  source:
+    min_count: 1

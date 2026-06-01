@@ -1,0 +1,23 @@
+id: intent-classify
+version: 1.0.0
+name: 意图识别
+description: 识别用户意图类别，不生成回复
+agent: router-agent
+boundary:
+  does:
+  - 识别咨询/工单/投诉/退款/闲聊
+  does_not:
+  - 生成回复
+  - 调用 Tool
+  - 创建工单
+inputs:
+- conversation_context
+outputs:
+- intent
+- confidence
+tools: []
+memory_deps:
+- working
+prompt_template: skills/prompts/intent-classify.md
+eval_suite: evaluation/skills/intent-classify/
+fallback: rule-engine.clarify-intent

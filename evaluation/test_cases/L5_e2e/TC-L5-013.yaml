@@ -1,0 +1,12 @@
+id: TC-L5-013
+layer: L5
+description: e2e-13
+input:
+  message: "企业版功能咨询"
+assertions:
+  skill:
+    must_invoke:
+    - answer-compose
+  response:
+    must_contain:
+    - 企业版

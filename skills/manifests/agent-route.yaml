@@ -1,0 +1,20 @@
+id: agent-route
+version: 1.0.0
+name: Agent 路由
+description: 根据意图路由到专业 Agent
+agent: router-agent
+boundary:
+  does:
+  - 选择目标 Agent
+  does_not:
+  - 执行业务 Skill
+inputs:
+- intent
+outputs:
+- target_agent
+tools: []
+memory_deps:
+- working
+prompt_template: skills/prompts/agent-route.md
+eval_suite: evaluation/skills/agent-route/
+fallback: rule-engine.default-consult

@@ -1,0 +1,12 @@
+id: ST-IC-001
+skill: intent-classify
+description: 套餐咨询
+input:
+  message: "企业版套餐包含哪些功能"
+assertions:
+  intent: consult
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

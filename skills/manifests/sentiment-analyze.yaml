@@ -1,0 +1,22 @@
+id: sentiment-analyze
+version: 1.0.0
+name: 情绪分析
+description: 分析用户情绪，不决定升级策略
+agent: escalation-agent
+boundary:
+  does:
+  - 输出情绪分数
+  does_not:
+  - 决定升级
+  - 转人工
+inputs:
+- conversation_context
+outputs:
+- sentiment_score
+- sentiment_label
+tools: []
+memory_deps:
+- working
+prompt_template: skills/prompts/sentiment-analyze.md
+eval_suite: evaluation/skills/sentiment-analyze/
+fallback: rule-engine.neutral-sentiment

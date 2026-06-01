@@ -1,0 +1,12 @@
+id: ST-IC-018
+skill: intent-classify
+description: 空泛
+input:
+  message: "啊"
+assertions:
+  intent: unknown
+  min_confidence: 0.35
+  needs_clarify: true
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

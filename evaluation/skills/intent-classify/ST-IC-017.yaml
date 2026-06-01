@@ -1,0 +1,12 @@
+id: ST-IC-017
+skill: intent-classify
+description: 单字澄清
+input:
+  message: "嗯"
+assertions:
+  intent: unknown
+  min_confidence: 0.35
+  needs_clarify: true
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

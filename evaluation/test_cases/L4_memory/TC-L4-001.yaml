@@ -1,0 +1,12 @@
+id: TC-L4-001
+layer: L4
+description: working 注入
+input:
+  message: "你好"
+  user_id: ""
+  memory_fixture: null
+assertions:
+  memory:
+    must_inject:
+    - working
+    must_not_inject: []

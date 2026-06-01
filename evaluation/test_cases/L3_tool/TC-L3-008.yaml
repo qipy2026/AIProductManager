@@ -1,0 +1,13 @@
+id: TC-L3-008
+layer: L3
+description: 紧急优先级
+input:
+  message: "设备故障紧急"
+assertions:
+  skill:
+    must_invoke:
+    - ticket-create
+    must_not_invoke: []
+  response:
+    must_contain:
+    - T-

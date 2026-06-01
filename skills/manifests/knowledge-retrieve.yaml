@@ -1,0 +1,25 @@
+id: knowledge-retrieve
+version: 1.0.0
+name: 知识检索
+description: RAG 检索，不生成用户可见回复
+agent: consult-agent
+boundary:
+  does:
+  - 向量检索
+  - 返回 source_refs
+  does_not:
+  - 生成最终回复
+  - 建单
+inputs:
+- conversation_context
+outputs:
+- chunks
+- source_refs
+tools:
+- vector_search.query
+memory_deps:
+- working
+- semantic
+prompt_template: skills/prompts/knowledge-retrieve.md
+eval_suite: evaluation/skills/knowledge-retrieve/
+fallback: rule-engine.no-knowledge

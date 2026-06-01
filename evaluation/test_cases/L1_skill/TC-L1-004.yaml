@@ -1,0 +1,19 @@
+id: TC-L1-004
+layer: L1
+description: 投诉转人工
+input:
+  message: "太差了，要投诉"
+  memory_fixture: null
+assertions:
+  skill:
+    must_invoke:
+    - sentiment-analyze
+    - human-handoff
+    must_not_invoke: []
+  response:
+    must_contain:
+    - 转接
+  memory:
+    must_inject:
+    - working
+    must_not_inject: []

@@ -1,0 +1,17 @@
+id: TC-L2-025
+layer: L2
+description: 咨询变体25
+input:
+  message: "企业版套餐功能"
+  session_id: "l2-TC-L2-025"
+assertions:
+  skill:
+    must_invoke:
+      - knowledge-retrieve
+      - answer-compose
+    must_not_invoke: []
+  response:
+    must_contain:
+    - 企业版
+  source:
+    min_count: 1

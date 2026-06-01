@@ -1,0 +1,11 @@
+id: TC-L5-009
+layer: L5
+description: E2E 闲聊
+input:
+  message: "你好"
+assertions:
+  skill:
+    must_invoke: []
+  response:
+    must_contain:
+    - 帮助

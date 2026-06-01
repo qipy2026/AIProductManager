@@ -1,0 +1,12 @@
+id: ST-IC-019
+skill: intent-classify
+description: 更新工单
+input:
+  message: "更新 T-002 优先级为高"
+assertions:
+  intent: ticket
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

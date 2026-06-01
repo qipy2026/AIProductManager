@@ -1,0 +1,12 @@
+id: ST-IC-003
+skill: intent-classify
+description: 发票 FAQ
+input:
+  message: "如何开具发票"
+assertions:
+  intent: consult
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

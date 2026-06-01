@@ -1,0 +1,12 @@
+id: TC-L5-006
+layer: L5
+description: E2E 澄清
+input:
+  message: "帮我看看"
+assertions:
+  skill:
+    must_invoke:
+    - intent-classify
+  response:
+    must_contain:
+    - 咨询

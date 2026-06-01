@@ -1,0 +1,23 @@
+id: escalation-judge
+version: 1.0.0
+name: 升级判断
+description: 判断是否需要升级，不直接转人工
+agent: escalation-agent
+boundary:
+  does:
+  - 升级条件判断
+  does_not:
+  - 执行转人工
+inputs:
+- conversation_context
+- sentiment_score
+outputs:
+- need_escalation
+- reason
+tools: []
+memory_deps:
+- working
+- episodic
+prompt_template: skills/prompts/escalation-judge.md
+eval_suite: evaluation/skills/escalation-judge/
+fallback: rule-engine.escalate-threshold

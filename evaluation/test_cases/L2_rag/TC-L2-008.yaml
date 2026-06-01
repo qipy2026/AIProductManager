@@ -1,0 +1,17 @@
+id: TC-L2-008
+layer: L2
+description: 来源标记
+input:
+  message: "套餐说明"
+  session_id: "l2-TC-L2-008"
+assertions:
+  skill:
+    must_invoke:
+      - knowledge-retrieve
+      - answer-compose
+    must_not_invoke: []
+  response:
+    must_contain:
+    - 来源
+  source:
+    min_count: 1

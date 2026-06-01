@@ -1,0 +1,29 @@
+id: ticket-create
+version: 1.0.0
+name: 工单创建
+description: 提取字段并创建工单
+agent: ticket-agent
+boundary:
+  does:
+  - 提取字段
+  - 校验
+  - 调用创建 API
+  does_not:
+  - 查询工单
+  - 修改工单
+  - 关闭工单
+inputs:
+- conversation_context
+- user_profile
+outputs:
+- ticket_id
+- ticket_summary
+tools:
+- ticket_api.create
+- crm_api.get_customer
+memory_deps:
+- working
+- profile
+prompt_template: skills/prompts/ticket-create.md
+eval_suite: evaluation/skills/ticket-create/
+fallback: rule-engine.ticket-template

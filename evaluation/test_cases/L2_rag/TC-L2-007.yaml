@@ -1,0 +1,18 @@
+id: TC-L2-007
+layer: L2
+description: 无命中
+input:
+  message: "火星移民政策如何办理"
+  session_id: "l2-TC-L2-007"
+assertions:
+  skill:
+    must_invoke:
+      - knowledge-retrieve
+      - answer-compose
+    must_not_invoke: []
+  response:
+    must_contain:
+    - 抱歉
+    - 未找到
+  source:
+    min_count: 0

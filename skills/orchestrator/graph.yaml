@@ -1,0 +1,42 @@
+# Skill 编排有向图 — M3 完整版
+
+routes:
+  consult:
+    skills: [knowledge-retrieve, answer-compose]
+    memory_deps: [working, semantic]
+  consult_vip:
+    skills: [crm-lookup, knowledge-retrieve, answer-compose]
+    memory_deps: [working, semantic, profile]
+  ticket_query:
+    skills: [ticket-query]
+    memory_deps: [working, episodic]
+  ticket_create:
+    skills: [ticket-create]
+    memory_deps: [working, profile]
+  ticket_update:
+    skills: [ticket-update]
+    memory_deps: [working]
+  complaint:
+    skills: [sentiment-analyze, escalation-judge, human-handoff]
+    memory_deps: [working, episodic]
+  complaint_judge:
+    skills: [sentiment-analyze, escalation-judge]
+    memory_deps: [working, episodic]
+  angry_ticket:
+    skills: [sentiment-analyze, ticket-create]
+    memory_deps: [working, profile]
+  refund:
+    skills: [ticket-create]
+    memory_deps: [working, profile, episodic]
+  crm:
+    skills: [crm-lookup]
+    memory_deps: [working, profile]
+  compliance:
+    skills: [compliance-check]
+    memory_deps: [working]
+  chitchat:
+    skills: [agent-route]
+    memory_deps: [working]
+  clarify:
+    skills: []
+    memory_deps: [working]

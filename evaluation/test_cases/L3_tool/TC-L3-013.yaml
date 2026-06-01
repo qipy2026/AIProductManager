@@ -1,0 +1,13 @@
+id: TC-L3-013
+layer: L3
+description: 建单变体13
+input:
+  message: "网络异常无法访问"
+assertions:
+  skill:
+    must_invoke:
+    - ticket-create
+    must_not_invoke: []
+  response:
+    must_contain:
+    - T-

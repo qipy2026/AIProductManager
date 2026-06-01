@@ -1,0 +1,19 @@
+id: TC-L1-020
+layer: L1
+description: 情绪建单
+input:
+  message: "很生气，订单没发货"
+  memory_fixture: null
+assertions:
+  skill:
+    must_invoke:
+    - sentiment-analyze
+    - ticket-create
+    must_not_invoke: []
+  response:
+    must_contain:
+    - T-
+  memory:
+    must_inject:
+    - working
+    must_not_inject: []

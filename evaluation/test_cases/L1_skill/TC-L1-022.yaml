@@ -1,0 +1,20 @@
+id: TC-L1-022
+layer: L1
+description: 套餐咨询
+input:
+  message: "专业版有什么功能"
+  memory_fixture: null
+assertions:
+  skill:
+    must_invoke:
+    - knowledge-retrieve
+    - answer-compose
+    must_not_invoke: []
+  response:
+    must_contain:
+    - 专业版
+  memory:
+    must_inject:
+    - working
+    - semantic
+    must_not_inject: []

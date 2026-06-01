@@ -1,0 +1,12 @@
+id: ST-IC-004
+skill: intent-classify
+description: 密码重置
+input:
+  message: "忘记密码怎么办"
+assertions:
+  intent: consult
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

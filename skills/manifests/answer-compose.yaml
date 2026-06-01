@@ -1,0 +1,22 @@
+id: answer-compose
+version: 1.0.0
+name: 回答生成
+description: 基于检索结果生成用户回复
+agent: consult-agent
+boundary:
+  does:
+  - 生成带引用的回复
+  does_not:
+  - 检索
+  - 建单
+inputs:
+- chunks
+- source_refs
+outputs:
+- response
+tools: []
+memory_deps:
+- working
+prompt_template: skills/prompts/answer-compose.md
+eval_suite: evaluation/skills/answer-compose/
+fallback: rule-engine.template-answer

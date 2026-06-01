@@ -1,0 +1,17 @@
+id: TC-L2-009
+layer: L2
+description: 引用编号
+input:
+  message: "企业版和专业版"
+  session_id: "l2-TC-L2-009"
+assertions:
+  skill:
+    must_invoke:
+      - knowledge-retrieve
+      - answer-compose
+    must_not_invoke: []
+  response:
+    must_contain:
+    - [1]
+  source:
+    min_count: 1
