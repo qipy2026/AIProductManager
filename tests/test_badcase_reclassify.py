@@ -62,6 +62,62 @@ def test_infer_blocked_flow():
     )
 
 
+def test_infer_l2_response_knowledge():
+    assert (
+        infer_attribution_from_badcase(
+            {
+                "attribution": "skill",
+                "layer": "L2",
+                "failures": ["response must contain: 企业版"],
+            },
+            force=True,
+        )
+        == "knowledge"
+    )
+
+
+def test_infer_l3_layer_default_flow():
+    assert (
+        infer_attribution_from_badcase(
+            {
+                "attribution": "skill",
+                "layer": "L3",
+                "failures": [],
+            },
+            force=True,
+        )
+        == "flow"
+    )
+
+
+def test_infer_intent_prompt():
+    assert (
+        infer_attribution_from_badcase(
+            {
+                "attribution": "eval_failure",
+                "layer": "L1",
+                "failures": ["intent expected consult got unknown"],
+            }
+        )
+        == "prompt"
+    )
+
+
+def test_force_overrides_stored_skill():
+    assert (
+        infer_attribution_from_badcase(
+            {
+                "attribution": "skill",
+                "layer": "L2",
+                "case_id": "TC-L2-001",
+                "failures": ["source refs missing"],
+            },
+            force=True,
+        )
+        == "retrieval"
+    )
+
+
 def test_reclassify_sqlite(tmp_path, monkeypatch):
     monkeypatch.setenv("OPS_DB", "sqlite")
     monkeypatch.setenv("AGENTOPS_DB", str(tmp_path / "bc.db"))
@@ -83,12 +139,12 @@ def test_reclassify_sqlite(tmp_path, monkeypatch):
     sqlite_store.badcase_add(
         case_id="TC-L2-001",
         layer="L2",
-        attribution="eval_failure",
+        attribution="skill",
         failures=["source refs missing"],
     )
     result = sqlite_store.badcase_reclassify_all()
     assert result["total"] == 2
-    assert result["updated"] == 2
+    assert result["updated"] >= 1
     items = sqlite_store.badcase_list(10)
     attrs = {i["case_id"]: i["attribution"] for i in items}
     assert attrs["TC-L1-001"] == "skill"

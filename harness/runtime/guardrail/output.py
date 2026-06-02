@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from agent.identity import identity
 from harness.runtime.context import HarnessContext, TraceStep
 
 
@@ -16,10 +17,7 @@ class OutputGuardrail:
         has_source: bool = False,
     ) -> HarnessContext:
         if require_source and not has_source:
-            ctx.response = (
-                ctx.response
-                + "\n\n[系统提示：未找到知识库来源，建议转人工确认。]"
-            )
+            ctx.response = ctx.response + identity.template("guardrail_no_source_suffix")
             ctx.trace.add_step(
                 TraceStep(
                     name="output_guardrail",

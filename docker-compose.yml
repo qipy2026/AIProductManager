@@ -1,15 +1,42 @@
 services:
+  mysql:
+    image: mysql:8.0
+    container_name: agentops-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: agentops
+      MYSQL_USER: agentops
+      MYSQL_PASSWORD: Agentops@2026!
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uagentops", "-pAgentops@2026!"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   backend:
     build: .
     ports:
       - "8000:8000"
     environment:
+      OPS_DB: mysql
+      MYSQL_HOST: mysql
+      MYSQL_PORT: "3306"
+      MYSQL_USER: agentops
+      MYSQL_PASSWORD: Agentops@2026!
+      MYSQL_DATABASE: agentops
       AGENTOPS_STORAGE: sqlite
       SEMANTIC_BACKEND: chroma
       LLM_MODE: mock
-      USE_LANGGRAPH: "1"
+      USE_LANGGRAPH: "0"
     volumes:
       - ./data:/app/data
+    depends_on:
+      mysql:
+        condition: service_healthy
 
   frontend:
     image: node:20-alpine

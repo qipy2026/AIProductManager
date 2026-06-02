@@ -25,14 +25,29 @@ def eval_run(gate: float = 0.85) -> dict:
 
 
 @router.get("/eval/report")
-def eval_report_latest() -> dict:
+def eval_report_latest(gate: float = 0.85) -> dict:
     from pathlib import Path
     import json
+
+    from harness.eval.report_enrich import enrich_report
 
     p = Path(__file__).resolve().parents[2] / "evaluation" / "reports" / "latest.json"
     if not p.exists():
         return {"error": "no report yet", "hint": "POST /api/eval/run"}
-    return json.loads(p.read_text(encoding="utf-8"))
+    raw = json.loads(p.read_text(encoding="utf-8"))
+    return enrich_report(raw, gate=gate)
+
+
+@router.get("/eval/cases/{case_id}")
+def eval_case_detail(case_id: str) -> dict:
+    from fastapi import HTTPException
+
+    from harness.eval.report_enrich import get_case_detail
+
+    detail = get_case_detail(case_id)
+    if not detail:
+        raise HTTPException(status_code=404, detail=f"用例 {case_id} 不存在")
+    return detail
 
 
 @router.post("/eval/replay")

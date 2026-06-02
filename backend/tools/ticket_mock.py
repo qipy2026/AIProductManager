@@ -100,6 +100,23 @@ class TicketMockAPI:
         m = re.search(r"T-\d+", message, re.I)
         return m.group(0).upper() if m else None
 
+    def list_all(self) -> list[Ticket]:
+        if settings.storage == "mysql":
+            from backend.db import mysql_store
+
+            return [
+                Ticket(id=r["id"], title=r["title"], status=r["status"], priority=r.get("priority", "normal"))
+                for r in mysql_store.ticket_list()
+            ]
+        if settings.storage == "sqlite":
+            from backend.db import sqlite_store
+
+            return [
+                Ticket(id=r["id"], title=r["title"], status=r["status"], priority=r.get("priority", "normal"))
+                for r in sqlite_store.ticket_list()
+            ]
+        return list(self._tickets.values())
+
     def clear(self) -> None:
         self._tickets = {
             "T-001": Ticket(id="T-001", title="服务器宕机", status="in_progress"),

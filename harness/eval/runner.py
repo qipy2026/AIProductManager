@@ -101,6 +101,20 @@ def load_cases(layers: list[str] | None = None) -> list[dict]:
 
 
 def run_eval(layers: list[str] | None = None, gate: float = 0.85) -> EvalReport:
+    import os
+
+    prev_eval = os.environ.get("EVAL_HARNESS")
+    os.environ["EVAL_HARNESS"] = "1"
+    try:
+        return _run_eval_body(layers, gate)
+    finally:
+        if prev_eval is None:
+            os.environ.pop("EVAL_HARNESS", None)
+        else:
+            os.environ["EVAL_HARNESS"] = prev_eval
+
+
+def _run_eval_body(layers: list[str] | None = None, gate: float = 0.85) -> EvalReport:
     cases = load_cases(layers)
     orchestrator = SkillOrchestrator()
     harness = RuntimeHarness()

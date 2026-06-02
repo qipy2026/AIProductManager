@@ -1,7 +1,7 @@
 [project]
 name = "agentops"
 version = "0.1.0"
-description = "智服通 AgentOps — B2B 智能客服 Agent 运营中台"
+description = "智服通 AgentOps — 企业智能客服 Agent 运营中台"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

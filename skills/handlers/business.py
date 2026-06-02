@@ -4,17 +4,12 @@ from __future__ import annotations
 
 import re
 
+from agent.identity import identity
 from backend.tools.ticket_mock import ticket_api
 from harness.runtime.context import HarnessContext
 
-TICKET_CREATE_FALLBACK = (
-    "请补充报修信息：\n"
-    "1. 问题标题（如：服务器宕机）\n"
-    "2. 优先级（紧急/普通）\n"
-    "请勿仅输入「我要报修」以免误创建工单。"
-)
-
-TICKET_QUERY_FALLBACK = "请提供工单号（如 T-001），以便查询进度。"
+TICKET_CREATE_FALLBACK = identity.template("ticket_create_fallback")
+TICKET_QUERY_FALLBACK = identity.template("ticket_query_fallback")
 
 
 def knowledge_retrieve(ctx: HarnessContext) -> HarnessContext:
@@ -33,7 +28,7 @@ def answer_compose(ctx: HarnessContext) -> HarnessContext:
     chunks = ctx.memory_context.get("chunks", [])
     sources = ctx.memory_context.get("sources", [])
     if not chunks:
-        ctx.response = "抱歉，知识库中未找到相关内容，建议转人工或换个问法。"
+        ctx.response = identity.template("no_kb_hit")
         return ctx
 
     from backend.llm.adapter import llm
@@ -55,13 +50,26 @@ def answer_compose(ctx: HarnessContext) -> HarnessContext:
     return ctx
 
 
+_TICKET_LIST = re.compile(r"查看工单|我的工单|工单列表|有哪些工单|查看我的工单", re.I)
+
+
 def ticket_query(ctx: HarnessContext) -> HarnessContext:
-    tid = ticket_api.extract_ticket_id(ctx.message)
+    msg = ctx.message
+    tid = ticket_api.extract_ticket_id(msg)
     if not tid:
         ep = ctx.memory_context.get("episodic") or {}
         ids = ep.get("ticket_ids") if isinstance(ep, dict) else []
         if ids:
             tid = ids[0]
+    if not tid and _TICKET_LIST.search(msg):
+        items = ticket_api.list_all()
+        if not items:
+            ctx.response = "当前没有工单记录。"
+            return ctx
+        lines = [f"- {t.id} [{t.status}] {t.title}" for t in items]
+        ctx.response = f"{identity.template('ticket_list_intro')}\n" + "\n".join(lines)
+        ctx.memory_context["ticket_list"] = [t.id for t in items]
+        return ctx
     if not tid:
         ctx.response = TICKET_QUERY_FALLBACK
         ctx.memory_context["fallback"] = "ask-ticket-id"
@@ -98,10 +106,7 @@ def escalation_judge(ctx: HarnessContext) -> HarnessContext:
 
 
 def human_handoff(ctx: HarnessContext) -> HarnessContext:
-    ctx.response = (
-        "非常抱歉给您带来不便。已为您标记升级，将转接人工客服队列（预计 2 分钟内接入）。"
-        "请稍候，请勿重复提交工单。"
-    )
+    ctx.response = identity.template("human_handoff")
     ctx.memory_context["handoff"] = True
     return ctx
 
@@ -148,7 +153,7 @@ def crm_lookup(ctx: HarnessContext) -> HarnessContext:
 
 
 def compliance_check(ctx: HarnessContext) -> HarnessContext:
-    ctx.response = "该请求涉及合规敏感内容，无法提供绕过审核的指引。如需帮助请联系合规团队。"
+    ctx.response = identity.template("compliance_blocked")
     ctx.memory_context["compliance_blocked"] = True
     return ctx
 

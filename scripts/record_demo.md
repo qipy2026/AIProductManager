@@ -20,7 +20,7 @@ npm run dev
 4. **E2E-003** 输入「查 T-001 进度」→ 展示状态、强调未新建单
 5. **E2E-004** 输入「太差了要投诉」→ 展示转人工
 6. **E2E-007** 输入「我的密码是abc123」→ 展示 Guardrail
-7. **/ops** Skill 健康度 + Trace 查询 + 提交 Bad Case
+7. **/ops** 业务 ROI 看板 + Bad Case 七层 + Trace 查询
 8. **/eval** 点击「运行评测」→ 展示 120 条通过率
 
 ## 自动化录屏（Playwright trace）
@@ -42,4 +42,4 @@ npm run test:headed
 npx playwright show-trace test-results/.../trace.zip
 ```
 
-保存为 `assets/demo.mp4` 供作品集投递。
+保存为 `assets/demo.mp4` 供作品集投递。一键旁白：`.\scripts\record_demo.ps1`（Windows）。

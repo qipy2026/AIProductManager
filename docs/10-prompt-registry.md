@@ -5,8 +5,9 @@
 ## 版本管理规则
 
 - 每个 Skill 独立 Prompt 文件：`skills/prompts/{skill_id}.md`
+- **Agent 人格与固定话术**：`agent/SOUL.md` + `agent/templates.yaml`（见 `agent/README.md`）
 - 变更必须：更新本表 + 跑 Skill Regression + Eval Harness CI
-- 格式：`{skill_id}@semver`（与 Manifest version 对齐）
+- 格式：`{skill_id}@semver`（与 Manifest version 对齐）；Identity 用 `templates.yaml` 内 `version`
 
 ## 注册表
 
@@ -24,6 +25,14 @@
 | sentiment-analyze | `skills/prompts/sentiment-analyze.md` | 1.0.0 | 2026-06-01 | 初版 | — |
 | crm-lookup | `skills/prompts/crm-lookup.md` | 1.0.0 | 2026-06-01 | 初版 | — |
 | compliance-check | `skills/prompts/compliance-check.md` | 1.0.0 | 2026-06-01 | 初版 | — |
+
+## Agent Identity 注册
+
+| 组件 | 路径 | 版本 | 说明 |
+|------|------|------|------|
+| SOUL | `agent/SOUL.md` | 1.0.0 | 人格与价值观 |
+| AGENT | `agent/AGENT.md` | 1.0.0 | 作战地图 |
+| templates | `agent/templates.yaml` | 1.0.0 | LLM system + 固定回复 |
 
 ## 变更日志
 

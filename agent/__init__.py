@@ -1,8 +1,4 @@
-"""Agent 薄封装 — 对外统一入口，内部委托 Orchestrator + Harness."""
+"""Agent 包：Identity 文档（agent/identity）+ LangGraph（agent/graph）+ Router（agent/router）.
 
-from agent.graph import build_langgraph_agent, run_langgraph
-from agent.router import AgentRouter
-from agent.router_agent import RouterAgent
-from agent.session import AgentSession
-
-__all__ = ["AgentRouter", "AgentSession", "RouterAgent", "run_langgraph", "build_langgraph_agent"]
+不在包初始化时导入 router/graph，避免与 harness.runtime 循环依赖。
+"""

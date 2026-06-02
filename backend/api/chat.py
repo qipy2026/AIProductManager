@@ -9,6 +9,7 @@ from harness.runtime.context import HarnessContext
 from harness.runtime.pipeline import RuntimeHarness
 from harness.runtime.trace_store import save_trace
 from backend.api.ops import index_trace
+from agent.identity import identity
 from skills.orchestrator.orchestrator import SkillOrchestrator
 
 router = APIRouter()
@@ -69,6 +70,7 @@ def chat(req: ChatRequest) -> ChatResponse:
             "response": ctx.response,
             "intent": str(intent_result.get("intent", "")),
             "session_id": session_id,
+            **identity.metadata(),
         },
     )
     index_trace(ctx.trace.trace_id)

@@ -23,9 +23,9 @@ function newSessionId() {
   return `sess-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
 }
 
-export default function ChatPanel() {
+export default function ChatPanel({ initialQuery }: { initialQuery?: string }) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(initialQuery ?? "");
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState("");
   const [sessions, setSessions] = useState<SessionItem[]>([]);

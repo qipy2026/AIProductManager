@@ -6,6 +6,7 @@ import json
 import re
 from typing import Any
 
+from agent.identity import identity
 from backend.config import settings
 
 
@@ -26,11 +27,7 @@ class LLMAdapter:
 
     def classify_intent_json(self, message: str) -> dict[str, Any] | None:
         """LLM 意图识别；mock 模式返回 None 由规则引擎兜底."""
-        sys_prompt = (
-            "你是意图分类器。仅输出 JSON："
-            '{"intent":"consult|ticket|complaint|refund|chitchat|compliance|crm|unknown",'
-            '"confidence":0.0-1.0,"needs_clarify":bool,"ticket_mode":"query|create|update|"}'
-        )
+        sys_prompt = identity.system_prompt("classify")
         raw = self.complete(f"用户消息：{message}", system=sys_prompt, temperature=0.0)
         if not raw:
             return None
@@ -59,11 +56,7 @@ class LLMAdapter:
             f"[{i + 1}] {c.get('title', '知识')}: {c.get('content', '')}" for i, c in enumerate(chunks)
         )
         src_line = " · ".join(f"{s.get('title', '')}" for s in refs if s.get("title"))
-        sys_prompt = (
-            "你是智服通 B2B 智能客服助手。"
-            "仅根据提供的知识库片段回答，不要编造片段中不存在的内容。"
-            "回答末尾用一行标注来源，格式：📎 来源：文档名"
-        )
+        sys_prompt = identity.system_prompt("compose")
         prompt = f"用户问题：{message}\n\n知识库片段：\n{ctx_lines}\n\n请用中文简洁回答。"
         raw = self.complete(prompt, system=sys_prompt, temperature=0.3)
         if not raw:
@@ -74,10 +67,7 @@ class LLMAdapter:
 
     def chat_reply(self, message: str, *, history: str = "") -> str:
         """通用对话回复（闲聊/兜底）."""
-        sys_prompt = (
-            "你是智服通 B2B 智能客服助手，可帮用户咨询产品、查询或创建工单。"
-            "回答简洁友好，使用中文。"
-        )
+        sys_prompt = identity.system_prompt("chat")
         prompt = message
         if history:
             prompt = f"对话历史：\n{history}\n\n用户：{message}"

@@ -218,6 +218,45 @@ def badcase_list(limit: int = 50) -> list[dict[str, Any]]:
         conn.close()
 
 
+def badcase_update(badcase_id: int, **fields: str) -> dict[str, Any] | None:
+    init_db()
+    allowed = {"attribution", "note", "trace_id", "case_id", "layer"}
+    updates = {k: v for k, v in fields.items() if k in allowed and v is not None}
+    if not updates:
+        return None
+    conn = _connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("SELECT * FROM badcases WHERE id=%s", (badcase_id,))
+            if not cur.fetchone():
+                return None
+            sets = ", ".join(f"{k}=%s" for k in updates)
+            cur.execute(
+                f"UPDATE badcases SET {sets} WHERE id=%s",
+                (*updates.values(), badcase_id),
+            )
+            cur.execute("SELECT * FROM badcases WHERE id=%s", (badcase_id,))
+            row = cur.fetchone()
+        item = dict(row)
+        fx = item.get("failures")
+        if isinstance(fx, str):
+            item["failures"] = json.loads(fx or "[]")
+        return item
+    finally:
+        conn.close()
+
+
+def badcase_delete_by_note_prefix(prefix: str) -> int:
+    init_db()
+    conn = _connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("DELETE FROM badcases WHERE note LIKE %s", (f"{prefix}%",))
+            return int(cur.rowcount)
+    finally:
+        conn.close()
+
+
 def badcase_reclassify_all() -> dict[str, Any]:
     from backend.badcase.attribution_infer import infer_attribution_from_badcase
 
@@ -227,14 +266,14 @@ def badcase_reclassify_all() -> dict[str, Any]:
     conn = _connect()
     try:
         with conn.cursor() as cur:
-            cur.execute("SELECT id, attribution, layer, note, failures FROM badcases")
+            cur.execute("SELECT id, case_id, attribution, layer, note, failures FROM badcases")
             rows = cur.fetchall()
             for r in rows:
                 item = dict(r)
                 fx = item.get("failures")
                 if isinstance(fx, str):
                     item["failures"] = json.loads(fx or "[]")
-                new_attr = infer_attribution_from_badcase(item)
+                new_attr = infer_attribution_from_badcase(item, force=True)
                 by_attribution[new_attr] = by_attribution.get(new_attr, 0) + 1
                 if new_attr != item["attribution"]:
                     cur.execute(
@@ -270,6 +309,17 @@ def ticket_get(ticket_id: str) -> dict[str, Any] | None:
         with conn.cursor() as cur:
             cur.execute("SELECT * FROM tickets WHERE id=%s", (ticket_id.upper(),))
             return cur.fetchone()
+    finally:
+        conn.close()
+
+
+def ticket_list() -> list[dict[str, Any]]:
+    init_db()
+    conn = _connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("SELECT * FROM tickets ORDER BY id")
+            return list(cur.fetchall())
     finally:
         conn.close()
 

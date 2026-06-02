@@ -13,6 +13,7 @@ node_modules/
 .next/
 out/
 e2e/test-results/
+e2e/demo-output/
 *.log
 data/
 .chroma/

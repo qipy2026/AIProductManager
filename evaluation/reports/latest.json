@@ -1,13 +1,13 @@
 {
-  "total": 120,
-  "passed": 120,
+  "total": 122,
+  "passed": 122,
   "failed": 0,
   "pass_rate": 1.0,
   "by_layer": {
     "L1": {
-      "passed": 25,
+      "passed": 26,
       "failed": 0,
-      "total": 25
+      "total": 26
     },
     "L2": {
       "passed": 25,
@@ -25,9 +25,9 @@
       "total": 20
     },
     "L5": {
-      "passed": 25,
+      "passed": 26,
       "failed": 0,
-      "total": 25
+      "total": 26
     }
   },
   "results": [
@@ -177,6 +177,12 @@
     },
     {
       "case_id": "TC-L1-025",
+      "layer": "L1",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "case_id": "TC-L1-026",
       "layer": "L1",
       "passed": true,
       "failures": []
@@ -747,6 +753,12 @@
     },
     {
       "case_id": "TC-L5-025",
+      "layer": "L5",
+      "passed": true,
+      "failures": []
+    },
+    {
+      "case_id": "TC-L5-026",
       "layer": "L5",
       "passed": true,
       "failures": []

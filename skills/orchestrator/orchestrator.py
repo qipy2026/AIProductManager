@@ -6,6 +6,7 @@ from pathlib import Path
 
 import yaml
 
+from agent.identity import identity
 from harness.runtime.context import HarnessContext
 from harness.runtime.memory_injector import build_memory_injector
 from memory.router.router import MemoryRouter
@@ -59,7 +60,7 @@ class SkillOrchestrator:
                 break
 
         if not ctx.response and route_key == "complaint_judge":
-            ctx.response = "已记录您的反馈，客服主管将尽快与您联系。"
+            ctx.response = identity.template("complaint_judge")
 
         if not ctx.response and route_key == "crm":
             pass
@@ -68,10 +69,7 @@ class SkillOrchestrator:
             from backend.llm.adapter import llm
 
             reply = llm.chat_reply(ctx.message) if llm.enabled() else ""
-            ctx.response = reply or (
-                "您好！我是智服通助手，可帮您咨询产品、查询/创建工单。"
-                "请问需要什么帮助？"
-            )
+            ctx.response = reply or identity.template("chitchat_greeting")
 
         if not ctx.response and route_key == "clarify":
             ctx.response = CLARIFY_FALLBACK

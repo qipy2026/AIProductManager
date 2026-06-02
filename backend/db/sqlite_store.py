@@ -175,6 +175,34 @@ def badcase_list(limit: int = 50) -> list[dict[str, Any]]:
     return out
 
 
+def badcase_update(badcase_id: int, **fields: str) -> dict[str, Any] | None:
+    init_db()
+    allowed = {"attribution", "note", "trace_id", "case_id", "layer"}
+    updates = {k: v for k, v in fields.items() if k in allowed and v is not None}
+    if not updates:
+        return None
+    with get_conn() as conn:
+        row = conn.execute("SELECT * FROM badcases WHERE id=?", (badcase_id,)).fetchone()
+        if not row:
+            return None
+        sets = ", ".join(f"{k}=?" for k in updates)
+        conn.execute(
+            f"UPDATE badcases SET {sets} WHERE id=?",
+            (*updates.values(), badcase_id),
+        )
+        row = conn.execute("SELECT * FROM badcases WHERE id=?", (badcase_id,)).fetchone()
+    item = dict(row)
+    item["failures"] = json.loads(item.get("failures") or "[]")
+    return item
+
+
+def badcase_delete_by_note_prefix(prefix: str) -> int:
+    init_db()
+    with get_conn() as conn:
+        cur = conn.execute("DELETE FROM badcases WHERE note LIKE ?", (f"{prefix}%",))
+        return int(cur.rowcount)
+
+
 def badcase_reclassify_all() -> dict[str, Any]:
     from backend.badcase.attribution_infer import infer_attribution_from_badcase
 
@@ -183,12 +211,12 @@ def badcase_reclassify_all() -> dict[str, Any]:
     by_attribution: dict[str, int] = {}
     with get_conn() as conn:
         rows = conn.execute(
-            "SELECT id, attribution, layer, note, failures FROM badcases"
+            "SELECT id, case_id, attribution, layer, note, failures FROM badcases"
         ).fetchall()
         for r in rows:
             item = dict(r)
             item["failures"] = json.loads(item.get("failures") or "[]")
-            new_attr = infer_attribution_from_badcase(item)
+            new_attr = infer_attribution_from_badcase(item, force=True)
             by_attribution[new_attr] = by_attribution.get(new_attr, 0) + 1
             if new_attr != item["attribution"]:
                 conn.execute(
@@ -222,6 +250,13 @@ def ticket_get(ticket_id: str) -> dict[str, Any] | None:
     with get_conn() as conn:
         row = conn.execute("SELECT * FROM tickets WHERE id=?", (ticket_id.upper(),)).fetchone()
     return dict(row) if row else None
+
+
+def ticket_list() -> list[dict[str, Any]]:
+    init_db()
+    with get_conn() as conn:
+        rows = conn.execute("SELECT * FROM tickets ORDER BY id").fetchall()
+    return [dict(r) for r in rows]
 
 
 def ticket_create(title: str, priority: str = "normal") -> dict[str, Any]:

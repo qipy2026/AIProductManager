@@ -10,11 +10,12 @@ from backend.api.kb import router as kb_router
 from backend.api.ops import router as ops_router
 from backend.api.sessions import router as sessions_router
 from backend.api.traces import router as traces_router
+from backend.api.tickets import router as tickets_router
 from backend.config import settings
 
 app = FastAPI(
     title="智服通 AgentOps",
-    description="B2B 智能客服 Agent 运营中台 API",
+    description="企业智能客服 Agent 运营中台 API",
     version="0.2.0",
 )
 
@@ -33,16 +34,28 @@ app.include_router(traces_router, prefix="/api", tags=["traces"])
 app.include_router(eval_router, prefix="/api", tags=["eval"])
 app.include_router(kb_router, prefix="/api", tags=["kb"])
 app.include_router(ops_router, prefix="/api", tags=["ops"])
+app.include_router(tickets_router, prefix="/api", tags=["tickets"])
 
 
 @app.on_event("startup")
 def _startup() -> None:
+    from backend.config import settings
     from backend.db.store import get_full_store, get_ops_store
 
-    for getter in (get_ops_store, get_full_store):
-        store = getter()
-        if store:
-            store.init_db()
+    try:
+        for getter in (get_ops_store, get_full_store):
+            store = getter()
+            if store:
+                store.init_db()
+    except Exception as e:
+        if settings.ops_db.lower() == "mysql" or settings.storage.lower() == "mysql":
+            raise RuntimeError(
+                "MySQL 初始化失败。请确认服务已启动：\n"
+                "  WSL: wsl sudo service mysql start && bash scripts/setup_wsl_mysql.sh\n"
+                "  Docker: docker compose up -d mysql\n"
+                f"  原始错误: {e}"
+            ) from e
+        raise
 
 
 @app.get("/")

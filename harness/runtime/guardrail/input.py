@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 
+from agent.identity import identity
 from harness.runtime.context import HarnessContext, TraceStep
 
 # 敏感词（Demo 级，生产应接合规词库）
@@ -31,7 +32,7 @@ class InputGuardrail:
             if pattern.search(text):
                 ctx.blocked = True
                 ctx.block_reason = "prompt_injection"
-                ctx.response = "您的输入包含不允许的内容，请重新描述您的问题。"
+                ctx.response = identity.template("guardrail_injection")
                 ctx.trace.add_step(
                     TraceStep(
                         name="input_guardrail",
@@ -48,7 +49,7 @@ class InputGuardrail:
             if pattern.search(text):
                 ctx.blocked = True
                 ctx.block_reason = "sensitive_data"
-                ctx.response = "请勿在对话中发送密码、身份证号等敏感信息。"
+                ctx.response = identity.template("guardrail_sensitive")
                 ctx.trace.add_step(
                     TraceStep(
                         name="input_guardrail",

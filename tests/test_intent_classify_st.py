@@ -57,7 +57,7 @@ def test_st_intent_classify_regression(case: dict, executor: SkillExecutor) -> N
 
 
 def test_st_suite_count():
-    assert len(CASES) == 25, f"expected 25 ST cases, got {len(CASES)}"
+    assert len(CASES) == 26, f"expected 26 ST cases, got {len(CASES)}"
 
 
 def test_st_pass_rate_threshold():

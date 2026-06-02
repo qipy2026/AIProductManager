@@ -36,3 +36,11 @@ Agent（角色层）→ Skill（能力层）→ Tool（工具层）
 一次解决率、Skill 路由准确率、RAG 命中率、Memory 命中率、转人工率
 
 → 详见 `docs/13-skill-design.md` / `docs/11-memory-design.md` / `docs/12-harness-design.md`
+
+## Agent Identity（Harness 工程）
+
+运行时人格与战术见 **`agent/`** 文档包：
+
+- `agent/SOUL.md` — 语气、价值观、禁止事项
+- `agent/AGENT.md` — 意图路由、Fallback、Eval 对齐
+- `agent/templates.yaml` — LLM System Prompt 与固定模板（由 `agent.identity.loader` 加载）

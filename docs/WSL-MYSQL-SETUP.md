@@ -42,6 +42,9 @@ npm run dev
 ## 3. 验证
 
 ```powershell
+python scripts/verify_mysql_persistence.py
+# 期望: ALL PASS — Harness + MySQL 持久化正常
+
 curl http://localhost:8002/
 # 应含 "ops_db": "mysql"
 

@@ -1,0 +1,12 @@
+id: ST-IC-026
+skill: intent-classify
+description: 查看工单 T号
+input:
+  message: "查看工单 T-001 的状态"
+assertions:
+  intent: ticket
+  min_confidence: 0.85
+  needs_clarify: false
+  boundary:
+    must_not_set_response: true
+    must_not_invoke_tools: true

@@ -28,6 +28,11 @@ class BadCaseCreate(BaseModel):
     note: str = ""
 
 
+class BadCaseUpdate(BaseModel):
+    attribution: str | None = Field(None, min_length=1, max_length=64)
+    note: str | None = None
+
+
 def _ops_store():
     store = get_ops_store()
     if store:
@@ -52,6 +57,20 @@ def ops_summary() -> dict:
         "trace_count": trace_count,
         "badcase_count": badcase_count,
     }
+
+
+@router.get("/ops/roi")
+def ops_roi() -> dict:
+    """业务 ROI 快照 — 基线 vs 当前，结合 Eval / Trace / Skill."""
+    from backend.ops.roi import build_roi_snapshot
+
+    summary = ops_summary()
+    skills_data = skill_health()
+    return build_roi_snapshot(
+        trace_count=summary.get("trace_count", 0),
+        badcase_count=summary.get("badcase_count", 0),
+        skills=skills_data.get("skills", []),
+    )
 
 
 @router.get("/ops/skills")
@@ -82,15 +101,38 @@ def skill_health() -> dict:
 
 @router.get("/ops/badcases")
 def badcases_list(limit: int = 200) -> dict:
+    from backend.badcase.enrich import enrich_badcase_list
+
     store = _ops_store()
     if store:
-        return {"items": store.badcase_list(min(limit, 500))}
+        raw = store.badcase_list(min(limit, 500))
+        return enrich_badcase_list(raw)
     items = []
     for tid in _trace_index[-100:]:
         tr = get_trace(tid)
         if tr and tr.get("attribution"):
             items.append({"trace_id": tid, "attribution": tr["attribution"]})
-    return {"items": items[:50]}
+    return enrich_badcase_list(items[:50])
+
+
+@router.patch("/ops/badcases/{badcase_id}")
+def badcases_update(badcase_id: int, body: BadCaseUpdate) -> dict:
+    from backend.badcase.enrich import enrich_badcase
+
+    store = _ops_store()
+    if not store or not hasattr(store, "badcase_update"):
+        return {"ok": False, "error": "未配置 OPS_DB 或存储不支持更新"}
+    fields = body.model_dump(exclude_none=True)
+    if not fields:
+        return {"ok": False, "error": "无更新字段"}
+    row = store.badcase_update(badcase_id, **fields)
+    if not row:
+        return {"ok": False, "error": "Bad Case 不存在"}
+    if body.attribution and row.get("trace_id"):
+        tr = get_trace(row["trace_id"])
+        if tr:
+            tr["attribution"] = body.attribution
+    return {"ok": True, "item": enrich_badcase(row)}
 
 
 @router.post("/ops/badcases")
@@ -120,3 +162,14 @@ def badcases_reclassify() -> dict:
         return {"ok": False, "error": "未配置 OPS_DB 或存储不支持批量归类"}
     result = store.badcase_reclassify_all()
     return {"ok": True, **result}
+
+
+@router.post("/ops/badcases/seed-demo")
+def badcases_seed_demo() -> dict:
+    """写入七层归因演示 Bad Case（每层 1 条真实场景）."""
+    from backend.badcase.demo_samples import seed_demo_badcases
+
+    store = _ops_store()
+    if not store:
+        return {"ok": False, "error": "未配置 OPS_DB 或 AGENTOPS_STORAGE=sqlite|mysql"}
+    return seed_demo_badcases(store)
