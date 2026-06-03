@@ -1,6 +1,6 @@
 # 智服通 AgentOps
 
-企业智能客服与工单 Agent 运营中台 — **B2B AI 产品经理作品集**（对标 [JD.md](./JD.md)）。
+企业智能客服与工单 Agent 运营中台 — **B2B AI 产品经理作品集**。
 
 ## 投递三件套
 
@@ -64,9 +64,9 @@ python scripts/seed_badcase_demo.py         # 七层 Bad Case 演示数据
 pytest tests/ -q
 ```
 
-## JD 对标索引
+## 对标索引
 
-| JD 要求 | 交付物 |
+| 要求 | 交付物 |
 |---------|--------|
 | Agent / Skill / Workflow 拆解 | [agent/AGENT.md](./agent/AGENT.md) · [docs/13-skill-design.md](./docs/13-skill-design.md) |
 | 场景化评测 + 自动化 | [evaluation/](./evaluation/) · [.github/workflows/eval.yml](./.github/workflows/eval.yml) |
@@ -80,7 +80,6 @@ pytest tests/ -q
 
 | 文档 | 说明 |
 |------|------|
-| [JD.md](./JD.md) | 岗位描述 |
 | [PROJECT_PLAN.md](./PROJECT_PLAN.md) | 项目总计划 |
 | [docs/DEMO.md](./docs/DEMO.md) | 在线 Demo / 录屏 / 部署 |
 | [docs/09-roi-report-sample.md](./docs/09-roi-report-sample.md) | ROI 汇报样例 |
