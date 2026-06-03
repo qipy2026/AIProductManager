@@ -12,14 +12,14 @@
 需求洞察 → 方案定义 → 原型验证 → 效果度量 → 交付验收 → 本地体验
 ```
 
-| 阶段 | 做了什么 | 入口 |
-|------|----------|------|
-| **1. 需求洞察** | 从模糊诉求挖出场景、约束与决策人 | [需求挖掘案例](./docs/08-requirement-discovery-case.md) · [共创工坊](./docs/07-co-creation-workshop-kit.md) |
-| **2. 方案定义** | Agent 角色、Skill 边界、工单状态机、权限与异常路径 | [PRD](./docs/02-PRD-智服通AgentOps.md) · [架构](./docs/01-agent-architecture.md) · [Skill 设计](./docs/13-skill-design.md) |
-| **3. 原型验证** | 可点击 Demo + 录屏，覆盖主路径与 Guardrail | [▶ demo.mp4](./assets/demo.mp4) · [演示手册](./docs/DEMO.md) · [5 分钟路径](#5-分钟演示路径) |
-| **4. 效果度量** | 业务 ROI 看板 + 120 条评测门禁 + Bad Case 七层归因 | [/roi](http://localhost:3000/roi) · [/eval](http://localhost:3000/eval) · [ROI 汇报样例](./docs/09-roi-report-sample.md) |
-| **5. 交付验收** | PRD 套件、API 规格、UAT 计划、交付索引 | [交付索引](./docs/DELIVERY-INDEX.md) · [UAT 计划](./docs/17-uat-acceptance-plan.md) |
-| **6. 本地体验** | Docker 或本地一键启动 | [快速启动](#快速启动) |
+| 阶段 | 目标 | 关键动作 | 入口 |
+|------|------|----------|------|
+| **1. 需求洞察** | 厘清真实业务问题与决策约束 | 需求访谈 · 共创工作坊 · 场景优先级排序 | [需求挖掘案例](./docs/08-requirement-discovery-case.md) · [共创工坊](./docs/07-co-creation-workshop-kit.md) |
+| **2. 方案定义** | 输出可评审、可落地的 Agent 方案 | PRD · Skill 边界 · 状态机 · 权限与异常路径 | [PRD](./docs/02-PRD-智服通AgentOps.md) · [架构](./docs/01-agent-architecture.md) · [Skill 设计](./docs/13-skill-design.md) |
+| **3. 原型验证** | 验证主路径可行、可向客户演示 | 可点击 Demo · 录屏 · Guardrail 场景走查 | [▶ demo.mp4](./assets/demo.mp4) · [演示手册](./docs/DEMO.md) · [5 分钟路径](#5-分钟演示路径) |
+| **4. 效果度量** | 用数据证明试点成效 | ROI 看板 · 120 条评测门禁 · Bad Case 七层归因 | [/roi](http://localhost:3000/roi) · [/eval](http://localhost:3000/eval) · [ROI 汇报样例](./docs/09-roi-report-sample.md) |
+| **5. 交付验收** | 满足 2B 交付与客户签收标准 | PRD 套件 · API 规格 · UAT 计划 | [交付索引](./docs/DELIVERY-INDEX.md) · [UAT 计划](./docs/17-uat-acceptance-plan.md) |
+| **6. 本地体验** | 评审者可独立复现 Demo | Docker / 本地启动 · 跑通主路径 | [快速启动](#快速启动) |
 
 ---
 
